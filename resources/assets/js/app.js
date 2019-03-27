@@ -5,9 +5,28 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+window._=require('loadash');
+try{
+    window.$=window.jQuery=require('jquery');
+    require('foundation-sites');
+}catch(e){}
+
+
+window.axios=require('axios');
+window.axios.defaults.headers.common['X-Requested-With']='XMLHttpRequest';
+
+let token=document.head.querySelector('meta[name="csrf-token"]');
+
+if(token){
+    window.axios.defaults.headers.common['X-CSRF-TOKEN']=token.content;
+}else{
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+
+
 require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');  //移除
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,7 +34,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));   移除
 
 const app = new Vue({
     el: '#app'

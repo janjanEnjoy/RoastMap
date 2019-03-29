@@ -5,13 +5,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-window._=require('loadash');
+window._=require('lodash');
 try{
     window.$=window.jQuery=require('jquery');
     require('foundation-sites');
 }catch(e){}
 
 
+
+//请求头增加csrf meta标签
 window.axios=require('axios');
 window.axios.defaults.headers.common['X-Requested-With']='XMLHttpRequest';
 
@@ -24,7 +26,13 @@ if(token){
 }
 
 
-require('./bootstrap');
+import Vue from 'vue';
+
+
+//以下：引入后需要扩展到vue实例中，去使用
+import router from './routes.js'
+import store from './store.js'
+// require('./bootstrap');
 
 // window.Vue = require('vue');  //移除
 
@@ -36,6 +44,15 @@ require('./bootstrap');
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));   移除
 
+/* 移除
 const app = new Vue({
     el: '#app'
 });
+*/
+
+
+//使用导入的router对象
+new Vue({
+    router,
+    store
+}).$mount('#app');  //将vue挂在到ID为app到页面元素上，同时在准备就绪时可以通过 Vue 调用 Vue Router 和 Vuex。
